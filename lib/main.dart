@@ -17,6 +17,7 @@ class MedApp extends StatelessWidget {
           
           
           child: MaterialApp(
+            debugShowCheckedModeBanner: false,
         home: Wrapper(),
       ),
     );

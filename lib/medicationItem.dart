@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:medicationinfosys/homepage.dart';
 import 'package:medicationinfosys/operations.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,9 @@ class MedicationItem extends StatefulWidget {
 }
 
 class _MedicationItemState extends State<MedicationItem> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,8 +34,12 @@ class _MedicationItemState extends State<MedicationItem> {
       child: Container(
         width: double.infinity,
         child: Row(
+          
           children: <Widget>[
+           
+            
             Container(
+              
               height: 100,
               width: 150,
               child: ClipRRect(
@@ -59,6 +67,7 @@ class _MedicationItemState extends State<MedicationItem> {
                               fontSize: 25),
                         ),
                       ),
+                       
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(
@@ -66,7 +75,7 @@ class _MedicationItemState extends State<MedicationItem> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              fontSize: 20),
+                              fontSize: 15),
                         ),
                       ),
                     

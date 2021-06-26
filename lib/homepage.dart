@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:medicationinfosys/detailpage.dart';
 import 'package:medicationinfosys/medicationItem.dart';
+import 'package:medicationinfosys/operations.dart';
 import 'package:medicationinfosys/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationinfosys/constants.dart';
@@ -17,6 +19,14 @@ class _HomePageState extends State<HomePage> {
   String id;
   String name = "";
   final AuthService _auth = AuthService();
+  navigateToDetail(DocumentSnapshot medications) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailPage(
+                  medications: medications,
+                )));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +119,7 @@ class _HomePageState extends State<HomePage> {
                 });
               },
             ),
+            
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: (name != "" && name != null)
@@ -120,26 +131,36 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, snapshot) {
                   // return !snapshot.hasData
                   return (snapshot.connectionState == ConnectionState.waiting)
-                      ? Center(child: CircularProgressIndicator())
+                      ? Center(
+                        child: CircularProgressIndicator())
                       : ListView.builder(
+        
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
+                           
                             DocumentSnapshot data =
                                 snapshot.data.documents[index];
-                            return MedicationItem(
+                                
+                            return InkWell(
+                              onTap: () =>
+                              navigateToDetail(snapshot.data.documents[index]),
+                            child:MedicationItem(
                               documentSnapshot: data,
                               id: data.documentID,
                               isFavourite: data['isFavourite'],
                               imageUrl: data['imageUrl'],
                               medicationName: data['medicationName'],
                               purpose: data['purpose'],
-                            );
+
+                            ));
                           },
                         );
                 },
               ),
             ),
+            
           ],
         ));
   }
 }
+
