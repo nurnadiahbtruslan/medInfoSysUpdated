@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:medicationinfosys/detailpage.dart';
+import 'package:medicationinfosys/favList.dart';
 import 'package:medicationinfosys/medicationItem.dart';
+import 'package:medicationinfosys/notification.dart';
 import 'package:medicationinfosys/operations.dart';
 import 'package:medicationinfosys/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationinfosys/constants.dart';
-
 
 import 'package:medicationinfosys/auth.dart';
 
@@ -86,6 +87,25 @@ class _HomePageState extends State<HomePage> {
                   "My Medication",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FavList()));
+                },
+              ),
+              Divider(
+                height: 10,
+                indent: 65,
+                color: Colors.black,
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.alarm,
+                  color: Colors.orangeAccent,
+                ),
+                title: Text(
+                  "My Reminder",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 onTap: () {},
               ),
               Divider(
@@ -93,23 +113,27 @@ class _HomePageState extends State<HomePage> {
                 indent: 65,
                 color: Colors.black,
               ),
+              ListTile(
+                leading: Icon(
+                  Icons.logout,
+                  color: Colors.orangeAccent,
+                ),
+                title: Text(
+                  "Logout",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                onTap: () async {
+                  await _auth.signOut();
+                },
+              ),
             ],
           ),
         ),
-       appBar: AppBar(
-        title: Text("Dashboard"),
-        actions: <Widget>[
-          FlatButton.icon(
-            color: Colors.white,
-            icon: Icon(Icons.person),
-            label: Text('logout'),
-            onPressed: () async {
-              await _auth.signOut();
-            },
-          ),
-        ],
-        backgroundColor: Colors.black,
-      ),
+        appBar: AppBar(
+          title: Text("Dashboard"),
+          actions: <Widget>[],
+          backgroundColor: Colors.black,
+        ),
         body: Column(
           children: <Widget>[
             SearchBox(
@@ -119,7 +143,6 @@ class _HomePageState extends State<HomePage> {
                 });
               },
             ),
-            
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: (name != "" && name != null)
@@ -131,36 +154,30 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, snapshot) {
                   // return !snapshot.hasData
                   return (snapshot.connectionState == ConnectionState.waiting)
-                      ? Center(
-                        child: CircularProgressIndicator())
+                      ? Center(child: CircularProgressIndicator())
                       : ListView.builder(
-        
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
-                           
                             DocumentSnapshot data =
                                 snapshot.data.documents[index];
-                                
-                            return InkWell(
-                              onTap: () =>
-                              navigateToDetail(snapshot.data.documents[index]),
-                            child:MedicationItem(
-                              documentSnapshot: data,
-                              id: data.documentID,
-                              isFavourite: data['isFavourite'],
-                              imageUrl: data['imageUrl'],
-                              medicationName: data['medicationName'],
-                              purpose: data['purpose'],
 
-                            ));
+                            return InkWell(
+                                onTap: () => navigateToDetail(
+                                    snapshot.data.documents[index]),
+                                child: MedicationItem(
+                                  documentSnapshot: data,
+                                  id: data.documentID,
+                                  isFavourite: data['isFavourite'],
+                                  imageUrl: data['imageUrl'],
+                                  medicationName: data['medicationName'],
+                                  purpose: data['purpose'],
+                                ));
                           },
                         );
                 },
               ),
             ),
-            
           ],
         ));
   }
 }
-

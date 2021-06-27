@@ -1,8 +1,8 @@
+import 'package:medicationinfosys/constants.dart';
 import 'package:medicationinfosys/login.dart';
 import 'package:medicationinfosys/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationinfosys/auth.dart';
-import 'package:medicationinfosys/constant.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -23,12 +23,14 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return loading? Loading(): Scaffold(
-            backgroundColor: Colors.orange[100],
+    return loading
+        ? Loading()
+        : Scaffold(
+            backgroundColor: kPrimaryColor,
             appBar: AppBar(
               elevation: 0,
               brightness: Brightness.light,
-              backgroundColor: Colors.amber,
+              backgroundColor: kPrimaryColor,
               leading: IconButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -39,121 +41,122 @@ class _RegisterState extends State<Register> {
                     color: Colors.black,
                   )),
             ),
-            body: Container(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              "Medinfo",
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
+            body: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                width: double.infinity,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                "Medinfo",
+                                style: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey[700],
+                              SizedBox(
+                                height: 15,
                               ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            )
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 40),
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              children: <Widget>[
-                                SizedBox(height: 15.0),
-                                TextFormField(
-                                  decoration: textInputDecoration.copyWith(
-                                      hintText: 'Email'),
-                                  validator: (val) =>
-                                      val.isEmpty ? 'Enter an email' : null,
-                                  onChanged: (val) {
-                                    setState(() => email = val);
-                                  },
+                              Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
-                                SizedBox(height: 15.0),
-                                TextFormField(
-                                  decoration: textInputDecoration.copyWith(
-                                      hintText: 'Password'),
-                                  obscureText: true,
-                                  validator: (val) => val.length < 6
-                                      ? 'Enter a password 6+ chars long'
-                                      : null,
-                                  onChanged: (val) {
-                                    setState(() => password = val);
-                                  },
-                                ),
-                                SizedBox(height: 15.0),
-                                RaisedButton(
-                                    color: Colors.yellow[800],
-                                    child: Text(
-                                      'Register',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    onPressed: () async {
-                                      if (_formKey.currentState.validate()) {
-                                        setState(() => loading = true);
-                                        dynamic result = await _auth
-                                            .registerWithEmailAndPassword(
-                                                email, password);
-                                        if (result == null) {
-                                          setState(() {
-                                            error =
-                                                'please supply a valid email';
-                                            loading = false;
-                                          });
+                              ),
+                              SizedBox(
+                                height: 15,
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 40),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                children: <Widget>[
+                                  SizedBox(height: 15.0),
+                                  TextFormField(
+                                    decoration: textInputDecoration.copyWith(
+                                        hintText: 'Email'),
+                                    validator: (val) =>
+                                        val.isEmpty ? 'Enter an email' : null,
+                                    onChanged: (val) {
+                                      setState(() => email = val);
+                                    },
+                                  ),
+                                  SizedBox(height: 15.0),
+                                  TextFormField(
+                                    decoration: textInputDecoration.copyWith(
+                                        hintText: 'Password'),
+                                    obscureText: true,
+                                    validator: (val) => val.length < 6
+                                        ? 'Enter a password 6+ chars long'
+                                        : null,
+                                    onChanged: (val) {
+                                      setState(() => password = val);
+                                    },
+                                  ),
+                                  SizedBox(height: 15.0),
+                                  RaisedButton(
+                                      color: Colors.yellow[800],
+                                      child: Text(
+                                        'Register',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onPressed: () async {
+                                        if (_formKey.currentState.validate()) {
+                                          setState(() => loading = true);
+                                          dynamic result = await _auth
+                                              .registerWithEmailAndPassword(
+                                                  email, password);
+                                          if (result == null) {
+                                            setState(() {
+                                              error =
+                                                  'please supply a valid email';
+                                              loading = false;
+                                            });
+                                          }
                                         }
-                                      }
-                                    }),
-                                SizedBox(height: 12.0),
-                                Text(
-                                  error,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 14.0),
-                                )
-                              ],
+                                      }),
+                                  SizedBox(height: 12.0),
+                                  Text(
+                                    error,
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 14.0),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                            child: Row(
-                          children: <Widget>[
-                            Text('Already have an account ?'),
-                            FlatButton(
-                              textColor: Colors.blue,
-                              child: Text(
-                                'Log In',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              onPressed: () {
-                                //signup screen
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => SignIn()));
-                              },
-                            )
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.center,
-                        ))
-                      ],
-                    ),
-                  ]),
+                          Container(
+                              child: Row(
+                            children: <Widget>[
+                              Text('Already have an account ?'),
+                              FlatButton(
+                                textColor: Colors.blue,
+                                child: Text(
+                                  'Log In',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                onPressed: () {
+                                  //signup screen
+                                  widget.toggleView();
+                                },
+                              )
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
+                          ))
+                        ],
+                      ),
+                    ]),
+              ),
             ),
           );
   }

@@ -24,9 +24,6 @@ class MedicationItem extends StatefulWidget {
 }
 
 class _MedicationItemState extends State<MedicationItem> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,19 +31,15 @@ class _MedicationItemState extends State<MedicationItem> {
       child: Container(
         width: double.infinity,
         child: Row(
-          
           children: <Widget>[
-           
-            
             Container(
-              
               height: 100,
               width: 150,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
                   widget.imageUrl,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fitHeight,
                 ),
               ),
             ),
@@ -58,32 +51,28 @@ class _MedicationItemState extends State<MedicationItem> {
                   Column(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 5.0),
                         child: Text(
                           widget.medicationName,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 25),
+                              color: Colors.black,
+                              fontSize: 20),
                         ),
                       ),
-                       
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(left: 5.0),
                         child: Text(
                           widget.purpose,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 15),
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.black, fontSize: 15),
                         ),
                       ),
-                    
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
                   ),
-               
-                  
                   Row(
                     children: <Widget>[
                       IconButton(
@@ -93,14 +82,13 @@ class _MedicationItemState extends State<MedicationItem> {
                         icon: widget.isFavourite
                             ? Icon(
                                 Icons.favorite,
-                                color: Colors.greenAccent,
+                                color: Colors.red,
                               )
                             : Icon(
                                 Icons.favorite_border,
-                                color: Colors.greenAccent,
+                                color: Colors.redAccent,
                               ),
                       ),
-                     
                     ],
                   ),
                 ],
@@ -111,7 +99,7 @@ class _MedicationItemState extends State<MedicationItem> {
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
     );
